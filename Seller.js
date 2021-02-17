@@ -13,19 +13,7 @@ function getDeliveries(iProduct, generator) {
     return iProduct;
 }
 
-function getSentimentChange({ startingQuantity, quantity }) {
-    if (startingQuantity === 0 && quantity === 0) {
-        return 1;
-    }
-    const v = 0.1
-    const ec = getExpectedChange(this.random_generator);
-    const alpha = startingQuantity
-    const beta = quantity
-    const inv_based_change = Math.log10(beta / alpha) * (-v);
-    return inv_based_change + ((ec - 0.5))
-}
-
-class Seller {
+class SellerParent {
     constructor(inventory, id = "Safeway", deliveryWait = 5) {
         this.inventory = inventory;
         this.deliveryWait = deliveryWait;
@@ -44,7 +32,7 @@ class Seller {
 
     calculatePriceChange(product){
         const inventory = this.inventory[product];
-        return getSentimentChange(inventory);
+        return this.getSentimentChange(inventory);
     }
 
     sell(product, buyQuantity) {
@@ -70,9 +58,31 @@ class Seller {
             inventory.priceHistory.push(inventory.price);
         }
     }
+
+    getSentimentChange({ startingQuantity, quantity }) {
+        if (startingQuantity === 0 && quantity === 0) {
+            return 1;
+        }
+        const v = 0.1
+        const ec = getExpectedChange(this.random_generator);
+        const alpha = startingQuantity
+        const beta = quantity
+        const inv_based_change = Math.log10(beta / alpha) * (-v);
+        return inv_based_change + ((ec - 0.5))
+    }
+}
+
+class Seller extends SellerParent {
+    constructor(inventory) {
+        super(inventory);
+    }
+}
+
+class newTypeOfSeller extends Seller {
+    constructor(inventory, id = "Safeway") {
+        super(inventory, id, 7);
+    }
 }
 
 
-
-
-module.exports = {Seller}
+module.exports = {Seller, newTypeOfSeller}
