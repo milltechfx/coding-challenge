@@ -13,6 +13,18 @@ function getDeliveries(iProduct, generator) {
     return iProduct;
 }
 
+function getSentimentChange({ startingQuantity, quantity }) {
+    if (startingQuantity === 0 && quantity === 0) {
+        return 1;
+    }
+    const v = 0.1
+    const ec = getExpectedChange(this.random_generator);
+    const alpha = startingQuantity
+    const beta = quantity
+    const inv_based_change = Math.log10(beta / alpha) * (-v);
+    return inv_based_change + ((ec - 0.5))
+}
+
 class Seller {
     constructor(inventory, id = "Safeway", deliveryWait = 5) {
         this.inventory = inventory;
@@ -32,15 +44,9 @@ class Seller {
 
     calculatePriceChange(product){
         const inventory = this.inventory[product];
-        const v = 0.1
-        const ec = getExpectedChange(this.random_generator);
-        const alpha = inventory.startingQuantity
-        const beta = inventory.quantity
-        const inv_based_change = Math.log10(beta / alpha) * (-v);
-        const sentimentChange = inv_based_change + ((ec - 0.5)*v)
-        return sentimentChange;
+        return getSentimentChange(inventory);
     }
-    
+
     sell(product, buyQuantity) {
         const inventory = this.inventory[product];
         const boughtQuantity = buyQuantity > inventory.quantity ? inventory.quantity : buyQuantity;
@@ -65,6 +71,8 @@ class Seller {
         }
     }
 }
+
+
 
 
 module.exports = {Seller}
