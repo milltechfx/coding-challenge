@@ -32,15 +32,9 @@ class Seller {
 
     calculatePriceChange(product){
         const inventory = this.inventory[product];
-        const v = 0.1
-        const ec = getExpectedChange(this.random_generator);
-        const alpha = inventory.startingQuantity
-        const beta = inventory.quantity
-        const inv_based_change = Math.log10(beta / alpha) * (-v);
-        const sentimentChange = inv_based_change + ((ec - 0.5)*v)
-        return sentimentChange;
+        return this.getSentimentChange(inventory);
     }
-    
+
     sell(product, buyQuantity) {
         const inventory = this.inventory[product];
         const boughtQuantity = buyQuantity > inventory.quantity ? inventory.quantity : buyQuantity;
@@ -64,7 +58,25 @@ class Seller {
             inventory.priceHistory.push(inventory.price);
         }
     }
+
+    getSentimentChange({ startingQuantity, quantity }) {
+        if (!startingQuantity || startingQuantity === 0 && quantity === 0) {
+            return 1;
+        }
+        const v = 0.1
+        const ec = getExpectedChange(this.random_generator);
+        const alpha = startingQuantity
+        const beta = quantity
+        const inv_based_change = Math.log10(beta / alpha) * (-v);
+        return inv_based_change + ((ec - 0.5))
+    }
+}
+
+class newTypeOfSeller extends Seller {
+    constructor(inventory, id = "Safeway") {
+        super(inventory, id, 7);
+    }
 }
 
 
-module.exports = {Seller}
+module.exports = {Seller, newTypeOfSeller}
