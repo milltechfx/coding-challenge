@@ -13,7 +13,7 @@ function getDeliveries(iProduct, generator) {
     return iProduct;
 }
 
-class SellerParent {
+class Seller {
     constructor(inventory, id = "Safeway", deliveryWait = 5) {
         this.inventory = inventory;
         this.deliveryWait = deliveryWait;
@@ -60,7 +60,7 @@ class SellerParent {
     }
 
     getSentimentChange({ startingQuantity, quantity }) {
-        if (startingQuantity === 0 && quantity === 0) {
+        if (!startingQuantity || startingQuantity === 0 && quantity === 0) {
             return 1;
         }
         const v = 0.1
@@ -72,17 +72,5 @@ class SellerParent {
     }
 }
 
-class Seller extends SellerParent {
-    constructor(inventory) {
-        super(inventory);
-    }
-}
 
-class newTypeOfSeller extends Seller {
-    constructor(inventory, id = "Safeway") {
-        super(inventory, id, 7);
-    }
-}
-
-
-module.exports = {Seller, newTypeOfSeller}
+module.exports = {Seller}
