@@ -72,5 +72,11 @@ class Seller {
     }
 }
 
+class newTypeOfSeller extends Seller {
+    constructor(inventory, id = "Safeway") {
+        super(inventory, id, 7);
+    }
+}
 
-module.exports = {Seller}
+
+module.exports = {Seller, newTypeOfSeller}
