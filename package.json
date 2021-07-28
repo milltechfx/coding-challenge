@@ -15,6 +15,6 @@
   },
   "dependencies": {
     "random-seed": "^0.3.0",
-    "rxjs": "^6.5.5"
+    "rxjs": "^6.6.3"
   }
 }
