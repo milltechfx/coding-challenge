@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node main.js",
-    "test": "jest"
+    "test": "jest",
+    "prepare": "npm run snyk-protect",
+    "snyk-protect": "snyk-protect"
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +17,8 @@
   },
   "dependencies": {
     "random-seed": "^0.3.0",
-    "rxjs": "^6.5.5"
-  }
+    "rxjs": "^6.5.5",
+    "@snyk/protect": "latest"
+  },
+  "snyk": true
 }
