@@ -18,7 +18,7 @@
   "dependencies": {
     "random-seed": "^0.3.0",
     "rxjs": "^6.5.5",
-    "@snyk/protect": "latest"
+    "@snyk/protect": "1.849.0"
   },
   "snyk": true
 }
