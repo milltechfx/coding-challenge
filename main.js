@@ -3,7 +3,7 @@ const {Market} = require("./Market");
 const { Buyer } = require("./Buyer");
 
 
-function main(){    
+function main(){
     const market = new Market([asda,budgens,costco]);
     let buyer = new Buyer(market);
     let product = "Apples";
